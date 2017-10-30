@@ -22,11 +22,11 @@
 					[{"x": 0.5, "y": 0.0}, {"x": 0.5, "y": 1.0}],
 					[{"x": 0.0, "y": 0.5}, {"x": 1.0, "y": 0.5}]
 				],
-				"bounds": {  // this makes it not a full-page crease
+				"bounds": [  // this makes it not a full-page crease
 					// the bounded x or y axis 
-					"a": {"x": 0.5, "y": "undefined"},
-					"b": {"x": 0.25, "y": "undefined"}
-				}
+					{"x": 0.5},  // y can be used too
+					{"x": 0.25}
+				]
 			}
 		},
 		{
