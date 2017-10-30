@@ -1,6 +1,13 @@
 # origami fold sequence
 
-one sequence object can be as simple as
+a file format for folding instructions can make possible:
+
+* auto-generated origami diagrams
+* render an animation of a folding origami
+
+---
+
+one sequence object can be as simple as:
 
 ```
 {
@@ -11,7 +18,9 @@ one sequence object can be as simple as
 }
 ```
 
-put many of them together in an array to make the whole fold sequence for an origami piece
+that makes a crease line.
+
+put many of them together in an array to make the whole fold sequence for an origami
 
 ``` javascript
 "sequence":[
@@ -31,9 +40,19 @@ put many of them together in an array to make the whole fold sequence for an ori
 ]
 ```
 
-a sequence of folds like this can be used to auto-generate origami diagrams
+### however each fold sequence entry can use more information
 
-### however each fold sequence entry needs more information
+mountain, valley, or mark
+
+```
+{
+	"orientation": "mountain"
+	"endpoints": [
+		{"x": 0.5, "y": 0.0},
+		{"x": 0.5, "y": 1.0}
+	]
+}
+```
 
 for curved creases
 
@@ -42,7 +61,7 @@ for curved creases
 	"curve": { // absense of this implies a straight line
 		// TBD. more information to describe the curve
 	}, 
-	"endpoints": [  // the endpoints of the crease
+	"endpoints": [
 		{"x": 0.5, "y": 0.0},
 		{"x": 0.5, "y": 1.0}
 	]
@@ -71,8 +90,7 @@ for explaining how the crease was made.
 }
 ```
 
-## example
-
+## full example
 
 ``` javascript
 {
@@ -90,6 +108,7 @@ for explaining how the crease was made.
 				{"x": 0.5, "y": 0.0},
 				{"x": 0.5, "y": 1.0}
 			],
+			"orientation": "mountain",
 			"instruction": { // how the crease was made. "fold top line to the diagonal line"
 				"axiom": 3,
 				"points": { //points required for axiom instruction
@@ -119,24 +138,28 @@ for explaining how the crease was made.
 {
 	"sequence":[
 		{
+			"orientation": "mountain",
 			"endpoints": [
 				{"x": 0.5, "y": 0.0},
 				{"x": 0.5, "y": 1.0}
 			]
 		},
 		{
+			"orientation": "mountain",
 			"endpoints": [
 				{"x": 0.0, "y": 0.5},
 				{"x": 1.0, "y": 0.5}
 			]
 		},
 		{
+			"orientation": "valley",
 			"endpoints": [
 				{"x": 0.0, "y": 0.0},
 				{"x": 1.0, "y": 1.0}
 			]
 		},
 		{
+			"orientation": "valley",
 			"endpoints": [
 				{"x": 0.0, "y": 1.0},
 				{"x": 1.0, "y": 0.0}
@@ -145,3 +168,7 @@ for explaining how the crease was made.
 	]
 }
 ```
+
+which folds:
+
+![crease pattern](https://cdn.rawgit.com/robbykraft/FoldSequence/master/examples/creasepattern.svg)

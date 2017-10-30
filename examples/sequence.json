@@ -13,6 +13,7 @@
 				{"x": 0.5, "y": 0.0},
 				{"x": 0.5, "y": 1.0}
 			],
+			"orientation": "mountain",  // mountain, valley, or mark
 			"instruction": { // how the crease was made. "fold top line to the diagonal line"
 				"axiom": 3,
 				"points": { //points required for axiom instruction
