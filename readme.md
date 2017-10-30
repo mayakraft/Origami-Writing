@@ -1,24 +1,26 @@
 # origami fold sequence
 
-a file format for folding instructions can make possible:
+a file format to describe set of folding instructions
+
+makes possible:
 
 * auto-generated origami diagrams
-* render an animation of a folding origami
+* render a folding animation of the origami
 
 ---
 
-one sequence object can be as simple as:
+## Format
+
+one sequence object defines a crease line
 
 ```
 {
-	"endpoints": [  // the endpoints of the crease
+	"endpoints": [  // the endpoints of the crease line
 		{"x": 0.5, "y": 0.0},
 		{"x": 0.5, "y": 1.0}
 	]
 }
 ```
-
-that makes a crease line.
 
 put many of them together in an array to make the whole fold sequence for an origami
 
@@ -40,63 +42,126 @@ put many of them together in an array to make the whole fold sequence for an ori
 ]
 ```
 
-### however each fold sequence entry can use more information
+**however, each step needs more information**
 
 mountain, valley, or mark
 
 ```
 {
-	"orientation": "mountain"
-	"endpoints": [
-		{"x": 0.5, "y": 0.0},
-		{"x": 0.5, "y": 1.0}
-	]
+	"orientation": "mountain",
 }
 ```
 
-for curved creases
+curved creases
 
 ```
 {
-	"curve": { // absense of this implies a straight line
-		// TBD. more information to describe the curve
+	"curve": {
+		bezier: {},
+		parametric: {},
+		// more ways to define a curve
 	}, 
-	"endpoints": [
-		{"x": 0.5, "y": 0.0},
-		{"x": 0.5, "y": 1.0}
-	]
 }
 ```
 
-for explaining how the crease was made. 
+a record for explaining how the crease was made
 
 > "Fold the top edge to the the bottom edge"
 
-``` javascript
-"instruction": {
-	"axiom": 3,
-	"points": { //points required for axiom instruction
-		// empty, because axiom 3 uses edges
-	},
-	"edges": [ // edges required for axiom instruction
-		[{"x": 0.5, "y": 0.0}, {"x": 0.5, "y": 1.0}],
-		[{"x": 0.0, "y": 0.5}, {"x": 1.0, "y": 0.5}]
-	],
-	"bounds": {  // this makes it not a full-page crease
-		// the bounded x or y axis 
-		"a": {"x": 0.5},  // y can be used too
-		"b": {"x": 0.25}
+
+```
+{
+	"axiom": {
+		"number": 3,
+		"edges": [ // edges required for axiom instruction
+			[{"x": 0.0, "y": 0.0}, {"x": 0.0, "y": 1.0}],
+			[{"x": 1.0, "y": 0.0}, {"x": 1.0, "y": 1.0}]
+		]
 	}
 }
 ```
 
-## full example
+this is the axiom object
+
+it has more properties too
+
+``` javascript
+"axiom": {
+	"number": 3,
+	"points": { // if axiom is defined by points
+		// empty, because axiom 3 uses edges
+	},
+	"edges": [ // edges required for axiom instruction
+		[{"x": 0.0, "y": 0.0}, {"x": 0.0, "y": 1.0}],
+		[{"x": 1.0, "y": 0.0}, {"x": 1.0, "y": 1.0}]
+	],
+	"bounds": {  // this makes it not a full-page crease
+		// the bounded x or y axis 
+		{"y": 0.5},
+		{"y": 1.0}
+	}
+}
+```
+
+
+## requirements
+
+the crease needs at least 1: "endpoints", "curve", or "axiom"
+
+```
+{
+	endpoints: [],
+	curve: {},
+	axiom: {}
+}
+```
+
+the crease can be defined from only the "axiom" object, without "endpoints".
+
+```
+{
+	"axiom": {
+		"number": 3,
+		"edges": [
+			[{"x": 0.0, "y": 0.0}, {"x": 0.0, "y": 1.0}],
+			[{"x": 1.0, "y": 0.0}, {"x": 1.0, "y": 1.0}]
+		]
+	}
+}
+```
+
+furthermore, the crease can be defined by an equation
+
+```
+{
+	"curve": {
+		parametric:{
+			// example: a sign curve, with amplitude and frequency
+			// - in units relative to the page dimensions			
+		}
+	}
+}
+```
+
+there are a few ways to define a crease. to guard against redundency there is an order of importance:
+
+1. "axiom"
+2. "curve"
+3. "endpoints"
+
+or switch 1 and 2
+
+1. "curve"
+2. "axiom"
+3. "endpoints"
+
+## verbose example
 
 ``` javascript
 {
-	"name": "string",
-	"description": "a longer string",
-	"date": 15252940,
+	"name": "title of piece",
+	"description": "description of piece",
+	"date": 15252940,  // what's a good date format to use?
 	// more stuff here, whatever you want, no specification yet. just have a "sequence" entry
 	"sequence":[
 		{
@@ -105,24 +170,24 @@ for explaining how the crease was made.
 				// for curved lines, TBD more information to describe the curve
 			}, 
 			"endpoints": [  // the endpoints of the crease
-				{"x": 0.5, "y": 0.0},
-				{"x": 0.5, "y": 1.0}
+				{"x": 0.5, "y": 0.5},
+				{"x": 1.0, "y": 1.0}
 			],
-			"orientation": "mountain",
-			"instruction": { // how the crease was made. "fold top line to the diagonal line"
-				"axiom": 3,
+			"orientation": "mountain",  // mountain, valley, or mark
+			"axiom": { // how the crease was made. "fold top line to the diagonal line"
+				"number": 3,
 				"points": { //points required for axiom instruction
 					// empty, because axiom 3 uses edges
 				},
 				"edges": [ // edges required for axiom instruction
-					[{"x": 0.5, "y": 0.0}, {"x": 0.5, "y": 1.0}],
-					[{"x": 0.0, "y": 0.5}, {"x": 1.0, "y": 0.5}]
+					[{"x": 0.0, "y": 0.0}, {"x": 0.0, "y": 1.0}],
+					[{"x": 1.0, "y": 0.0}, {"x": 1.0, "y": 1.0}]
 				],
-				"bounds": {  // this makes it not a full-page crease
+				"bounds": [  // this makes it not a full-page crease
 					// the bounded x or y axis 
-					"a": {"x": 0.5, "y": "undefined"},
-					"b": {"x": 0.25, "y": "undefined"}
-				}
+					{"y": 0.5},
+					{"y": 1.0}
+				]
 			}
 		},
 		{
@@ -169,6 +234,10 @@ for explaining how the crease was made.
 }
 ```
 
-which folds:
+which makes:
 
 ![crease pattern](https://cdn.rawgit.com/robbykraft/FoldSequence/master/examples/creasepattern.svg)
+
+## TODO
+
+more 
