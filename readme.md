@@ -13,12 +13,12 @@ makes possible:
 
 one sequence object defines a crease line
 
-```
+``` javascript
 {
-	"endpoints": [  // the endpoints of the crease line
-		{"x": 0.5, "y": 0.0},
-		{"x": 0.5, "y": 1.0}
-	]
+  "endpoints": [  // the endpoints of the crease line
+    {"x": 0.5, "y": 0.0},
+    {"x": 0.5, "y": 1.0}
+  ]
 }
 ```
 
@@ -26,19 +26,19 @@ put many of them together in an array to make the whole fold sequence for an ori
 
 ``` javascript
 "sequence":[
-	{
-		"endpoints": [
-			{"x": 0.5, "y": 0.0},
-			{"x": 0.5, "y": 1.0}
-		]
-	},
-	{
-		"endpoints": [
-			{"x": 0.0, "y": 0.5},
-			{"x": 1.0, "y": 0.5}
-		]
-	},
-	// continued...
+  {
+    "endpoints": [
+      {"x": 0.5, "y": 0.0},
+      {"x": 0.5, "y": 1.0}
+    ]
+  },
+  {
+    "endpoints": [
+      {"x": 0.0, "y": 0.5},
+      {"x": 1.0, "y": 0.5}
+    ]
+  },
+  // continued...
 ]
 ```
 
@@ -46,21 +46,21 @@ put many of them together in an array to make the whole fold sequence for an ori
 
 mountain, valley, or mark
 
-```
+``` javascript
 {
-	"orientation": "mountain",
+  "orientation": "mountain",
 }
 ```
 
 curved creases
 
-```
+``` javascript
 {
-	"curve": {
-		bezier: {},
-		parametric: {},
-		// more ways to define a curve
-	}, 
+  "curve": {
+    bezier: {},
+    parametric: {},
+    // more ways to define a curve
+  }, 
 }
 ```
 
@@ -69,15 +69,15 @@ a record for explaining how the crease was made
 > "Fold the top edge to the the bottom edge"
 
 
-```
+``` javascript
 {
-	"axiom": {
-		"number": 3,
-		"edges": [ // edges required for axiom instruction
-			[{"x": 0.0, "y": 0.0}, {"x": 0.0, "y": 1.0}],
-			[{"x": 1.0, "y": 0.0}, {"x": 1.0, "y": 1.0}]
-		]
-	}
+  "axiom": {
+    "number": 3,
+    "edges": [ // edges required for axiom instruction
+      [{"x": 0.0, "y": 0.0}, {"x": 0.0, "y": 1.0}],
+      [{"x": 1.0, "y": 0.0}, {"x": 1.0, "y": 1.0}]
+    ]
+  }
 }
 ```
 
@@ -87,19 +87,19 @@ it has more properties too
 
 ``` javascript
 "axiom": {
-	"number": 3,
-	"points": { // if axiom is defined by points
-		// empty, because axiom 3 uses edges
-	},
-	"edges": [ // edges required for axiom instruction
-		[{"x": 0.0, "y": 0.0}, {"x": 0.0, "y": 1.0}],
-		[{"x": 1.0, "y": 0.0}, {"x": 1.0, "y": 1.0}]
-	],
-	"bounds": {  // this makes it not a full-page crease
-		// the bounded x or y axis 
-		{"y": 0.5},
-		{"y": 1.0}
-	}
+  "number": 3,
+  "points": { // if axiom is defined by points
+    // empty, because axiom 3 uses edges
+  },
+  "edges": [ // edges required for axiom instruction
+    [{"x": 0.0, "y": 0.0}, {"x": 0.0, "y": 1.0}],
+    [{"x": 1.0, "y": 0.0}, {"x": 1.0, "y": 1.0}]
+  ],
+  "bounds": {  // this makes it not a full-page crease
+    // the bounded x or y axis 
+    {"y": 0.5},
+    {"y": 1.0}
+  }
 }
 ```
 
@@ -108,38 +108,38 @@ it has more properties too
 
 the crease needs at least 1: "endpoints", "curve", or "axiom"
 
-```
+``` javascript
 {
-	endpoints: [],
-	curve: {},
-	axiom: {}
+  endpoints: [],
+  curve: {},
+  axiom: {}
 }
 ```
 
 the crease can be defined from only the "axiom" object, without "endpoints".
 
-```
+``` javascript
 {
-	"axiom": {
-		"number": 3,
-		"edges": [
-			[{"x": 0.0, "y": 0.0}, {"x": 0.0, "y": 1.0}],
-			[{"x": 1.0, "y": 0.0}, {"x": 1.0, "y": 1.0}]
-		]
-	}
+  "axiom": {
+    "number": 3,
+    "edges": [
+      [{"x": 0.0, "y": 0.0}, {"x": 0.0, "y": 1.0}],
+      [{"x": 1.0, "y": 0.0}, {"x": 1.0, "y": 1.0}]
+    ]
+  }
 }
 ```
 
 furthermore, the crease can be defined by an equation
 
-```
+``` javascript
 {
-	"curve": {
-		parametric:{
-			// example: a sign curve, with amplitude and frequency
-			// - in units relative to the page dimensions			
-		}
-	}
+  "curve": {
+    parametric:{
+      // example: a sign curve, with amplitude and frequency
+      // - in units relative to the page dimensions
+    }
+  }
 }
 ```
 
@@ -159,41 +159,41 @@ or switch 1 and 2
 
 ``` javascript
 {
-	"name": "title of piece",
-	"description": "description of piece",
-	"date": 15252940,  // what's a good date format to use?
-	// more stuff here, whatever you want, no specification yet. just have a "sequence" entry
-	"sequence":[
-		{
-			"duration": 1,  // for animation, show curves
-			"curve": { // absense implies straight line
-				// for curved lines, TBD more information to describe the curve
-			}, 
-			"endpoints": [  // the endpoints of the crease
-				{"x": 0.5, "y": 0.5},
-				{"x": 1.0, "y": 1.0}
-			],
-			"orientation": "mountain",  // mountain, valley, or mark
-			"axiom": { // how the crease was made. "fold top line to the diagonal line"
-				"number": 3,
-				"points": { //points required for axiom instruction
-					// empty, because axiom 3 uses edges
-				},
-				"edges": [ // edges required for axiom instruction
-					[{"x": 0.0, "y": 0.0}, {"x": 0.0, "y": 1.0}],
-					[{"x": 1.0, "y": 0.0}, {"x": 1.0, "y": 1.0}]
-				],
-				"bounds": [  // this makes it not a full-page crease
-					// the bounded x or y axis 
-					{"y": 0.5},
-					{"y": 1.0}
-				]
-			}
-		},
-		{
-			// more sequence objects follow
-		}
-	]
+  "name": "title of piece",
+  "description": "description of piece",
+  "date": 15252940,  // what's a good date format to use?
+  // more stuff here, whatever you want, no specification yet. just have a "sequence" entry
+  "sequence":[
+    {
+      "duration": 1,  // for animation, show curves
+      "curve": { // absense implies straight line
+        // for curved lines, TBD more information to describe the curve
+      }, 
+      "endpoints": [  // the endpoints of the crease
+        {"x": 0.5, "y": 0.5},
+        {"x": 1.0, "y": 1.0}
+      ],
+      "orientation": "mountain",  // mountain, valley, or mark
+      "axiom": { // how the crease was made. "fold top line to the diagonal line"
+        "number": 3,
+        "points": { //points required for axiom instruction
+          // empty, because axiom 3 uses edges
+        },
+        "edges": [ // edges required for axiom instruction
+          [{"x": 0.0, "y": 0.0}, {"x": 0.0, "y": 1.0}],
+          [{"x": 1.0, "y": 0.0}, {"x": 1.0, "y": 1.0}]
+        ],
+        "bounds": [  // this makes it not a full-page crease
+          // the bounded x or y axis 
+          {"y": 0.5},
+          {"y": 1.0}
+        ]
+      }
+    },
+    {
+      // more sequence objects follow
+    }
+  ]
 }
 ```
 
@@ -201,36 +201,36 @@ or switch 1 and 2
 
 ``` javascript
 {
-	"sequence":[
-		{
-			"orientation": "mountain",
-			"endpoints": [
-				{"x": 0.5, "y": 0.0},
-				{"x": 0.5, "y": 1.0}
-			]
-		},
-		{
-			"orientation": "mountain",
-			"endpoints": [
-				{"x": 0.0, "y": 0.5},
-				{"x": 1.0, "y": 0.5}
-			]
-		},
-		{
-			"orientation": "valley",
-			"endpoints": [
-				{"x": 0.0, "y": 0.0},
-				{"x": 1.0, "y": 1.0}
-			]
-		},
-		{
-			"orientation": "valley",
-			"endpoints": [
-				{"x": 0.0, "y": 1.0},
-				{"x": 1.0, "y": 0.0}
-			]
-		}
-	]
+  "sequence":[
+    {
+      "orientation": "mountain",
+      "endpoints": [
+        {"x": 0.5, "y": 0.0},
+        {"x": 0.5, "y": 1.0}
+      ]
+    },
+    {
+      "orientation": "mountain",
+      "endpoints": [
+        {"x": 0.0, "y": 0.5},
+        {"x": 1.0, "y": 0.5}
+      ]
+    },
+    {
+      "orientation": "valley",
+      "endpoints": [
+        {"x": 0.0, "y": 0.0},
+        {"x": 1.0, "y": 1.0}
+      ]
+    },
+    {
+      "orientation": "valley",
+      "endpoints": [
+        {"x": 0.0, "y": 1.0},
+        {"x": 1.0, "y": 0.0}
+      ]
+    }
+  ]
 }
 ```
 
