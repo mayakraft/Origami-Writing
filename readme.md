@@ -9,9 +9,13 @@ makes possible:
 
 ---
 
+## Overview
+
+To represent a step by step instruction an ordered array stores each step. Each step is a fold instruction where the details of each fold are described in terms of the creases put into the material.
+
 ## Format
 
-one sequence object defines a crease line
+each step is describing the new crease line
 
 ``` javascript
 {
@@ -22,7 +26,7 @@ one sequence object defines a crease line
 }
 ```
 
-put many of them together in an array to make the whole fold sequence for an origami
+put many of these together in an array and you have the step by step instructions for an origami
 
 ``` javascript
 "sequence":[
@@ -68,7 +72,6 @@ a record for explaining how the crease was made
 
 > "Fold the top edge to the the bottom edge"
 
-
 ``` javascript
 {
   "axiom": {
@@ -103,8 +106,7 @@ it has more properties too
 }
 ```
 
-
-## requirements
+## Ways to define a fold
 
 the crease needs at least 1: "endpoints", "curve", or "axiom"
 
@@ -130,7 +132,7 @@ the crease can be defined from only the "axiom" object, without "endpoints".
 }
 ```
 
-furthermore, the crease can be defined by an equation
+the crease can be defined by an equation
 
 ``` javascript
 {
@@ -237,7 +239,3 @@ or switch 1 and 2
 which makes:
 
 ![crease pattern](https://cdn.rawgit.com/robbykraft/FoldSequence/master/examples/creasepattern.svg)
-
-## TODO
-
-more 
